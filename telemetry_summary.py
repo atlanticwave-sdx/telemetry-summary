@@ -14,7 +14,7 @@ if __name__ == '__main__':
     influxdb = InfluxDB(setting)
     influxdb.open_connection()
 
-    telemetry_packet = TelemetryPacket(influxdb)
+    telemetry_packet = TelemetryPacket(influxdb, setting)
 
     try:
         thread = threading.Thread(target=telemetry_packet.send_packet(), daemon=True)
