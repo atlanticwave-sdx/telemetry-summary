@@ -14,6 +14,7 @@ class Setting:
         """
         self.verbose_status = False
         self.database_info = None
+        self.topology = None
 
         self.tags = None
         self.fields = None
@@ -35,8 +36,12 @@ class Setting:
 
             self.verbose_status = config.getboolean('DEFAULT', 'verbose')
             self.database_info = dict(set(config.items('INFLUXDB')) - set(config.items('DEFAULT')))
+            self.topology = dict(set(config.items('TOPOLOGY')) - set(config.items('DEFAULT')))
             self.tags = dict(set(config.items('MAP')) - set(config.items('DEFAULT')))
             self.fields = dict(set(config.items('MAP.Timestamp')) - set(config.items('MAP')))
+
+            for key, val in self.topology.items():
+                self.topology[key] = val.strip('][').split(', ')
 
             if 'counters' in self.fields:
                 self.counters = self.fields['counters'].strip('][').split(', ')
