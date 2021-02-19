@@ -19,16 +19,6 @@ class TelemetryPacket:
 
         self.topology = setting.topology
 
-        # self.topology = dict()
-        # self.topology['amlight_sdx_1'] = list()
-        # self.topology['amlight_sdx_1'] = ['l2vpn_bra_usa_11242', 'l2vpn_bra_usa_11343']
-        #
-        # self.topology['amlight_sdx_2'] = list()
-        # self.topology['amlight_sdx_2'] = ['l2vpn_bra_usa_22242', 'l2vpn_bra_usa_22343']
-        #
-        # self.topology['amlight_sdx_3'] = list()
-        # self.topology['amlight_sdx_3'] = ['l2vpn_bra_usa_33242', 'l2vpn_bra_usa_33343']
-
         self.setting_up()
 
         self.list_result = list()
