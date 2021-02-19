@@ -114,10 +114,11 @@ class InfluxDB:
         # It saves the information to the database
         written = self.db_client.write_points(json_structure)
 
-        if written and self.verbose_status:
-            print("Packet information saved to the database!")
-        elif not written:
-            print("Errors saving the information to the database!")
+        if self.verbose_status:
+            if written:
+                print("Packet information saved to the database!")
+            else:
+                print("Errors saving the information to the database!")
 
     def save_to(self, data):
         """
