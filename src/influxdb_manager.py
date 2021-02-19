@@ -18,20 +18,20 @@ class InfluxDB:
         self.database = setting.database_info['database']
 
         self.local_connection = True \
-            if setting.database_info['local_connection'].lower() \
-               in ['true', 'yes', 'y', '1'] else False
+            if setting.database_info['local_connection'].lower() in ['true', 'yes', 'y', '1'] \
+            else False
 
         if not self.local_connection:
             self.username = setting.database_info['username']
             self.password = setting.database_info['password']
 
             self.ssl = True \
-                if setting.database_info['ssl'].lower() \
-                   in ['true', 'yes', 'y', '1'] else False
+                if setting.database_info['ssl'].lower() in ['true', 'yes', 'y', '1'] \
+                else False
 
             self.verify_ssl = True \
-                if setting.database_info['verify_ssl'].lower() \
-                   in ['true', 'yes', 'y', '1'] else False
+                if setting.database_info['verify_ssl'].lower() in ['true', 'yes', 'y', '1'] \
+                else False
 
         self.table_results = None
         self.verbose_status = setting.verbose_status
@@ -43,7 +43,6 @@ class InfluxDB:
         Method in charge of the connection creation with the InfluxDB database.
         In a local environment, it will remove the database content and
         tables related to the application to keep test consistency.
-        :param local:
         :return:
         """
 
