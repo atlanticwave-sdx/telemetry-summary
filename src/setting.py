@@ -13,7 +13,7 @@ class Setting:
         Instance initialization and config.ini interpretation
         """
         self.verbose_status = False
-        self.timestamp = None
+        self.database_info = None
 
         self.tags = None
         self.fields = None
@@ -33,7 +33,8 @@ class Setting:
         with open(environment_filename) as f:
             config.read_file(f)
 
-            self.verbose_status = config.getboolean('DEFAULT', 'Verbose')
+            self.verbose_status = config.getboolean('DEFAULT', 'verbose')
+            self.database_info = dict(set(config.items('INFLUXDB')) - set(config.items('DEFAULT')))
             self.tags = dict(set(config.items('MAP')) - set(config.items('DEFAULT')))
             self.fields = dict(set(config.items('MAP.Timestamp')) - set(config.items('MAP')))
 
