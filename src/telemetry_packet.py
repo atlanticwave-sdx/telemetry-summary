@@ -19,9 +19,9 @@ class TelemetryPacket:
 
         self.topology = setting.topology
 
-        self.setting_up()
-
         self.list_result = list()
+
+        self.setting_up()
 
     def setting_up(self):
 
@@ -30,12 +30,12 @@ class TelemetryPacket:
             for elem in val:
                 self.sources[key][elem] = dict()
                 self.sources[key][elem]['sequence_number'] = random.randint(100000, 400000)
-                self.sources[key][elem]['out_packets'] = random.randint(20, 100)
-                self.sources[key][elem]['in_packets'] = random.randint(25, 100)
-                self.sources[key][elem]['out_octets'] = random.randint(30, 100)
-                self.sources[key][elem]['in_octets'] = random.randint(35, 100)
+                self.sources[key][elem]['in_octets'] = random.randint(20, 100)
+                self.sources[key][elem]['out_octets'] = random.randint(25, 100)
+                self.sources[key][elem]['in_packets'] = random.randint(30, 100)
+                self.sources[key][elem]['out_packets'] = random.randint(35, 100)
 
-    def refresh(self):
+    def packet_refresher(self):
 
         for key, val in self.sources.items():
             for in_key, in_val in val.items():
@@ -78,7 +78,7 @@ class TelemetryPacket:
 
                 self.list_result.append(copy.deepcopy(self.packet_info))
 
-    def send_packet(self):
+    def packet_sender(self):
 
         while True:
 
@@ -86,6 +86,6 @@ class TelemetryPacket:
 
             self.influxdb.save_to(self.list_result)
 
-            self.refresh()
+            self.packet_refresher()
 
             time.sleep(self.n_seconds)

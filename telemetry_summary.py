@@ -17,7 +17,7 @@ if __name__ == '__main__':
     telemetry_packet = TelemetryPacket(influxdb, setting)
 
     try:
-        thread = threading.Thread(target=telemetry_packet.send_packet(), daemon=True)
+        thread = threading.Thread(target=telemetry_packet.packet_sender(), daemon=True)
         thread.start()
         thread.join()
     except KeyboardInterrupt:
