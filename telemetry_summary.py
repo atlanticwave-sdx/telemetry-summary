@@ -3,11 +3,15 @@ import sys
 import threading
 
 from src.influxdb_manager import InfluxDB
+from src.setting import Setting
 from src.telemetry_packet import TelemetryPacket
 
 if __name__ == '__main__':
 
-    influxdb = InfluxDB(verbose=True)
+    setting = Setting()
+    setting.read_params()
+
+    influxdb = InfluxDB(setting)
     influxdb.open_connection()
 
     telemetry_packet = TelemetryPacket(influxdb)
