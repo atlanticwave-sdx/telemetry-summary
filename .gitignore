@@ -1,0 +1,27 @@
+# Don't track content of these folders
+venv
+venv/
+venv/*
+
+.DS_Store
+
+.idea
+.idea/
+.idea/*
+.idea/*.xml
+.idea/*.iml
+.idea/dictionaries
+
+__pycache__
+__pycache__/
+__pycache__/*
+
+tests/__pycache__
+tests/__pycache__/
+tests/__pycache__/*
+
+/.mypy_cache
+
+/htmlcov
+
+/resources
