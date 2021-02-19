@@ -11,16 +11,14 @@ class InfluxDB:
 
     db_client = None
 
-    def __init__(self, verbose=True):
+    def __init__(self, setting):
 
-        self.connection_type = 'Local'
-
-        self.host = 'localhost'
-        self.port = 8086
-        self.database = 'telemetry_summary'
+        self.host = setting.database_info['host']
+        self.port = setting.database_info['port']
+        self.database = setting.database_info['database']
 
         self.table_results = None
-        self.verbose_status = verbose
+        self.verbose_status = setting.verbose_status
 
     def open_connection(self, local=True):
         """
