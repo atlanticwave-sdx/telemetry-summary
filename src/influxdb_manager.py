@@ -17,10 +17,28 @@ class InfluxDB:
         self.port = setting.database_info['port']
         self.database = setting.database_info['database']
 
+        self.local_connection = True \
+            if setting.database_info['local_connection'].lower() \
+               in ['true', 'yes', 'y', '1'] else False
+
+        if not self.local_connection:
+            self.username = setting.database_info['username']
+            self.password = setting.database_info['password']
+
+            self.ssl = True \
+                if setting.database_info['ssl'].lower() \
+                   in ['true', 'yes', 'y', '1'] else False
+
+            self.verify_ssl = True \
+                if setting.database_info['verify_ssl'].lower() \
+                   in ['true', 'yes', 'y', '1'] else False
+
         self.table_results = None
         self.verbose_status = setting.verbose_status
 
-    def open_connection(self, local=True):
+        self.setting = setting
+
+    def open_connection(self):
         """
         Method in charge of the connection creation with the InfluxDB database.
         In a local environment, it will remove the database content and
@@ -29,21 +47,24 @@ class InfluxDB:
         :return:
         """
 
-        # Local connection
-        self.db_client = InfluxDBClient(self.host, self.port, self.database)
+        if self.local_connection:
+            # Local connection
+            self.db_client = InfluxDBClient(self.host, self.port, self.database)
 
-        # Remote connection
-        # self.db_client = InfluxDBClient(self.host, self.port,
-        #                                 self.username, self.password,
-        #                                 ssl=True, verify_ssl=True)
-
-        if local:
             # Begin - This will happen only on local execution
-            self.db_client.delete_series(self.database, 'telemetry_summary')
-            self.db_client.create_database(self.database)
-
-            self.db_client.get_list_database()
+            if {'name': self.database} in self.db_client.get_list_database():
+                self.db_client.delete_series(self.database, 'telemetry_summary')
+            else:
+                self.db_client.create_database(self.database)
             # End - This will happen only on local execution
+
+        else:
+            # Remote connection
+            self.db_client = InfluxDBClient(self.host, self.port,
+                                            username=self.username, password=self.password,
+                                            database=self.database,
+                                            ssl=self.ssl, verify_ssl=self.verify_ssl)
+            self.db_client.create_database(self.database)
 
         # It assures to be pointing to the target table after the connection
         self.db_client.switch_database(self.database)
@@ -54,18 +75,6 @@ class InfluxDB:
         from the database given the user's specification
         :return:
         """
-
-        # It builds up the query based on the filtering possibilities
-        # bind_params, query, where = self.filtering()
-        #
-        # # It retrieves the data from the database base on the query
-        # if where is not '':
-        #     query = query + ' WHERE ' + where
-        #     self.table_results = self.db_client.query(query, bind_params=bind_params)
-        #
-        # else:
-        #     self.table_results = self.db_client.query('SELECT * '
-        #                                               'FROM "proofoftransit"."autogen"."telemetry_summary"')
 
         self.table_results = self.db_client.query('SELECT * '
                                                   'FROM "telemetry_summary"."autogen"."telemetry_summary"')
