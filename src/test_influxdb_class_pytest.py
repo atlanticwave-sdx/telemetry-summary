@@ -1,5 +1,5 @@
-import pytest
-from mock import patch, MagicMock
+from mock import MagicMock
+
 from src.influxdb_manager import InfluxDB
 from src.setting import Setting
 
@@ -12,11 +12,11 @@ class TestInfluxdbClass(object):
 
     def test_instance(self):
 
-        # setting = MagicMock()
-        # setting.database_info['host'] = 'test_localhost'
+        setting = MagicMock()
+        setting.database_info['host'] = 'test_localhost'
 
-        setting = Setting()
-        setting.read_params()
+        # setting = Setting()
+        # setting.read_params()
 
         influxdb = InfluxDB(setting)
 
