@@ -37,8 +37,8 @@ class TelemetryPacket:
 
     def packet_refresher(self):
 
-        for key, val in self.sources.items():
-            for in_key, in_val in val.items():
+        for _, val in self.sources.items():
+            for _, in_val in val.items():
                 in_val['in_octets'] = in_val['in_octets'] + 1
                 in_val['out_octets'] = in_val['out_octets'] + 1
                 in_val['in_packets'] = in_val['in_packets'] + 1
@@ -53,8 +53,8 @@ class TelemetryPacket:
                 _date_time = datetime.datetime.fromtimestamp(curr_time / 1e9)
 
                 self.packet_info = dict({"measurement": "telemetry_summary"})
-                self.packet_info['time'] = '{}{:03.0f}'.format(_date_time.strftime('%Y-%m-%dT%H:%M:%S.%f'),
-                                                               curr_time % 1e9)
+                self.packet_info['time'] = '{}{:03.0f}'.format(
+                    _date_time.strftime('%Y-%m-%dT%H:%M:%S.%f'), curr_time % 1e9)
                 self.packet_info['tags'] = dict()
                 self.packet_info['tags']['version'] = '1.0'
                 self.packet_info['tags']['source'] = key
