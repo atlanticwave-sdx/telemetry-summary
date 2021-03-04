@@ -9,7 +9,7 @@ before_script:
   - echo "deb https://repos.influxdata.com/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/influxdb.list
   - apt-get update && apt-get install influxdb
   - service influxdb start
-  - curl -XPOST 'http://localhost:8086/query' --data-urlencode 'q=CREATE DATABASE "proofoftransit"'
+  - curl -XPOST 'http://localhost:8086/query' --data-urlencode 'q=CREATE DATABASE "telemetry_summary"'
   - ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
   - dpkg-reconfigure --frontend noninteractive tzdata
   - pip install --upgrade pip
