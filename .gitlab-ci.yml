@@ -4,9 +4,6 @@ before_script:
   - python --version
   - apt-get update -y && apt-get upgrade -y
   - apt-get install -y libpq-dev
-#  - apt-get install -y rabbitmq-server
-#  - service rabbitmq-server start
-#  - service rabbitmq-server status
   - apt-get update && apt-get install -y lsb-release && apt-get clean all
   - wget -qO- https://repos.influxdata.com/influxdb.key | apt-key add -
   - source /etc/os-release
@@ -29,13 +26,13 @@ stages:
 #  script:
 #    - pylint -d C0301 src/*.py
 
-#mypy:
-#  stage: Static Analysis
-#  script:
-#    - pwd
-#    - ls -l
-#    - python -m mypy src/*.py
-#
+mypy:
+  stage: Static Analysis
+  script:
+    - pwd
+    - ls -l
+    - python -m mypy src/*.py
+
 flake8:
   stage: Static Analysis
   script:
