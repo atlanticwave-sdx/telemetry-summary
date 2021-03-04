@@ -17,21 +17,17 @@ class InfluxDB:
         self.port = setting.database_info['port']
         self.database = setting.database_info['database']
 
-        self.local_connection = True \
-            if setting.database_info['local_connection'].lower() in ['true', 'yes', 'y', '1'] \
-            else False
+        self.local_connection = setting.database_info['local_connection'].lower() \
+            in ['true', 'yes', 'y', '1']
 
         if not self.local_connection:
             self.username = setting.database_info['username']
             self.password = setting.database_info['password']
 
-            self.ssl = True \
-                if setting.database_info['ssl'].lower() in ['true', 'yes', 'y', '1'] \
-                else False
+            self.ssl = setting.database_info['ssl'].lower() in ['true', 'yes', 'y', '1']
 
-            self.verify_ssl = True \
-                if setting.database_info['verify_ssl'].lower() in ['true', 'yes', 'y', '1'] \
-                else False
+            self.verify_ssl = setting.database_info['verify_ssl'].lower() \
+                in ['true', 'yes', 'y', '1']
 
         self.table_results = None
         self.verbose_status = setting.verbose_status
@@ -75,13 +71,15 @@ class InfluxDB:
         :return:
         """
 
-        self.table_results = self.db_client.query('SELECT * '
-                                                  'FROM "telemetry_summary"."autogen"."telemetry_summary"')
+        self.table_results = \
+            self.db_client.query('SELECT * '
+                                 'FROM "' + self.database + '"."autogen"."telemetry_summary"')
 
         # It sorts/organizes the elements got from the database
         if not isinstance(self.table_results, list):
             # It creates a list based on the content retrieved from the database
-            self.table_results = list(self.table_results.get_points(measurement='telemetry_summary'))
+            self.table_results = list(self.table_results.get_points(
+                measurement='telemetry_summary'))
 
             # InfluxDB uses its tags as keys on its built-in sorting process
             # Switch ID tag is a string and intervenes on this process.
@@ -134,5 +132,5 @@ class InfluxDB:
                 # It will visualize all the information on the console
                 self.fetch_results()
 
-        except ValueError:
-            raise ValueError
+        except ValueError as value_error:
+            raise ValueError from value_error
