@@ -8,7 +8,7 @@ before_script:
   - wget -qO- https://repos.influxdata.com/influxdb.key | apt-key add -
   - source /etc/os-release
   - echo "deb https://repos.influxdata.com/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/influxdb.list
-  - apt-get update && apt-get install influxdb
+  - apt-get update && apt-get install python-influxdb
   - service influxdb start
   - curl -XPOST 'http://localhost:8086/query' --data-urlencode 'q=CREATE DATABASE "telemetry_summary"'
   - ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
