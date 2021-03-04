@@ -3,6 +3,10 @@ image: "python:3.7"
 before_script:
   - python --version
   - apt-get update -y && apt-get upgrade -y
+  - apt-get install -y libpcap-dev libpq-dev
+  - apt-get install -y rabbitmq-server
+  - service rabbitmq-server start
+  - service rabbitmq-server status
   - apt-get update && apt-get install -y lsb-release && apt-get clean all
   - wget -qO- https://repos.influxdata.com/influxdb.key | apt-key add -
   - source /etc/os-release
@@ -16,7 +20,7 @@ before_script:
   - pip install -r docs/requirements.txt
 
 stages:
-#  - Static Analysis
+  - Static Analysis
   - Test
 
 # pylint:
@@ -32,12 +36,12 @@ stages:
 #    - ls -l
 #    - python -m mypy src/*.py
 #
-#flake8:
-#  stage: Static Analysis
-#  script:
-#    - flake8 --max-line-length=120 src/*.py
+flake8:
+  stage: Static Analysis
+  script:
+    - flake8 --max-line-length=120 src/*.py
 
-Telemetry_Summary_tests:
+Telemetry_Summary_Tests:
   stage: Test
   script:
     - pwd
