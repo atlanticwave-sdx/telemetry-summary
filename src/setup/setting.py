@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+"""
+This class is designed to manage the interaction with the
+setting file, including the verification process in terms
+of information required to accomplish a proper execution.
+"""
 import configparser
 from os import path
 
@@ -6,7 +11,7 @@ from os import path
 class Setting:
     """
     This class will support the initialization of all
-    the attributes through the console arguments provided.
+    the attributes through the configuration file provided.
     """
     database_info = None
 
@@ -25,6 +30,12 @@ class Setting:
 
     @staticmethod
     def check_database_attributes(database_info):
+        """
+        Method in charge of checking if the configuration file specifies
+        all the attributes needed to set up the database connection.
+        :param database_info: Current attributes on the InfluxDB section
+        :return: True or Exception
+        """
         keys = [*database_info]
         setting_parameters = ['host', 'port', 'username', 'password', 'database'
             , 'local_connection', 'ssl', 'verify_ssl']
@@ -38,8 +49,8 @@ class Setting:
 
     def read_params(self):
         """
-        Method to set the execution setting given the user's input.
-        The input might be a File or a connection to a RabbitMQ queue
+        Method to set the execution setting given the
+        information specified on the configuration file.
         :return: None
         """
         config = configparser.ConfigParser()
