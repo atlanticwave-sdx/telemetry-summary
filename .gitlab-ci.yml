@@ -26,12 +26,12 @@ stages:
 #  script:
 #    - pylint -d C0301 src/*.py
 
-mypy:
-  stage: Static Analysis
-  script:
-    - pwd
-    - ls -l
-    - python -m mypy src/*.py
+#mypy:
+#  stage: Static Analysis
+#  script:
+#    - pwd
+#    - ls -l
+#    - python -m mypy src/*.py
 
 flake8:
   stage: Static Analysis
