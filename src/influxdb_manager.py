@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+"""
+Class designed to manage all the interactions with the database,
+from the establishment of the connection to saving the schema.
+"""
 import copy
 from influxdb import InfluxDBClient
 
@@ -8,8 +12,8 @@ class InfluxDB:
     This class will support InfluxDB database connections and operations.
     It includes methods to build the schema proposed to store on the database.
     """
-
     db_client = None
+    table_results = None
 
     def __init__(self, setting):
 
@@ -29,7 +33,6 @@ class InfluxDB:
             self.verify_ssl = setting.database_info['verify_ssl'].lower() \
                 in ['true', 'yes', 'y', '1']
 
-        self.table_results = None
         self.verbose_status = setting.verbose_status
 
         self.setting = setting
@@ -102,9 +105,8 @@ class InfluxDB:
 
     def save_to_database(self, json_structure):
         """
-        Method in charge of the JSON structure storing
-        process to the database if and only if its path
-        information differs from the last inserted
+        Method in charge of the JSON structure
+        storing process to the database
         :param json_structure:
         :return: None
         """
@@ -120,9 +122,9 @@ class InfluxDB:
 
     def save_to(self, data):
         """
-        Method that supports the schema creation given the
-        JSON dataset, as well as the instantiation to save it.
-        :param data: JSON data set with the packet information
+        Method that supports the schema instantiation
+        to save teh JSON Dataset.
+        :param data: JSON data set with the telemetry information
         :return: None
         """
         try:

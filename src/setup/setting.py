@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This class is designed to manage the interaction with the
+Class designed to manage the interaction with the
 setting file, including the verification process in terms
 of information required to accomplish a proper execution.
 """
