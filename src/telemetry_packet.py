@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+"""
+Class designed to support the packet summary building process,
+following a specific schema in a continuous feed cycle.
+"""
 import copy
 import datetime
 import random
@@ -6,6 +10,10 @@ import time
 
 
 class TelemetryPacket:
+    """
+    This class will provide all the methods to create and maintain
+    the packet summary creation as a continuous feed process.
+    """
 
     def __init__(self, _influxdb, setting, n_seconds=2):
 
@@ -24,6 +32,11 @@ class TelemetryPacket:
         self.setting_up()
 
     def setting_up(self):
+        """
+        Method in charge of the initialization of basic attributes
+        on the Packet Summary information structure.
+        :return: None
+        """
 
         for key, val in self.topology.items():
             self.sources[key] = dict()
@@ -36,6 +49,11 @@ class TelemetryPacket:
                 self.sources[key][elem]['out_packets'] = random.randint(35, 100)
 
     def packet_refresher(self):
+        """
+        Methods in charge of update the accumulative
+        information relative to the packet summary.
+        :return: None
+        """
 
         for _, val in self.sources.items():
             for _, in_val in val.items():
@@ -45,6 +63,11 @@ class TelemetryPacket:
                 in_val['out_packets'] = in_val['out_packets'] + 1
 
     def packet_builder(self):
+        """
+        Method in charge of create the whole packet summary
+        structure following the structure and schema proposed.
+        :return: None
+        """
 
         self.list_result.clear()
         for key, val in self.sources.items():
@@ -79,6 +102,10 @@ class TelemetryPacket:
                 self.list_result.append(copy.deepcopy(self.packet_info))
 
     def packet_sender(self):
+        """
+        Method in charge of keeping a loop that guarantees a continuous feed cycle.
+        :return: None
+        """
 
         while True:
 
